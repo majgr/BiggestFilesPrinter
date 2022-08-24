@@ -57,7 +57,7 @@ public static class PathServiceExtensions
 
     public static string Unwrap(this (PathService PathService, string Path) maybe)
     {
-        return option.Path;
+        return maybe.Path;
     }
 }
 
