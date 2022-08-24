@@ -2,29 +2,42 @@
 
 public class PathService
 {
-    public static (PathService PathService, string Path) GetFromArgs(string[] args)
+    public static (PathService PathService, string Path) GetMaybe()
     {
-        var path = args.Any() ? args.Single() : string.Empty;
-        return (new PathService(), path);
+        return (new PathService(), String.Empty);
     }
 }
 
 public static class PathServiceExtensions
 {
-    public static (PathService PathService, string Path) GetFromSettings(this (PathService PathService, string Path) option, Settings settings)
+    public static (PathService PathService, string Path)
+        FromArgs(this (PathService PathService, string Path) maybe, string[] args)
     {
-        if (!Path.IsPathFullyQualified(option.Path))
+        if (!Path.IsPathFullyQualified(maybe.Path))
         {
-            var path = settings.DefaultFolder;
-            return (option.PathService, path);
+            var path = args.Any() ? args.Single() : string.Empty;
+            return (new PathService(), path);
         }
 
-        return option;
+        return maybe;
     }
 
-    public static (PathService PathService, string Path) GetFromConsole(this (PathService PathService, string Path) option)
+    public static (PathService PathService, string Path)
+        FromSettings(this (PathService PathService, string Path) maybe, Settings settings)
     {
-        if (!Path.IsPathFullyQualified(option.Path))
+        if (!Path.IsPathFullyQualified(maybe.Path))
+        {
+            var path = settings.DefaultFolder;
+            return (new PathService(), path);
+        }
+
+        return maybe;
+    }
+
+    public static (PathService PathService, string Path)
+        FromConsole(this (PathService PathService, string Path) maybe)
+    {
+        if (!Path.IsPathFullyQualified(maybe.Path))
         {
             Console.WriteLine("Please, provide path:");
             var path = Console.ReadLine();
@@ -36,13 +49,13 @@ public static class PathServiceExtensions
                 path = Console.ReadLine();
             }
 
-            return (option.PathService, path);
+            return (new PathService(), path);
         }
 
-        return option;
+        return maybe;
     }
 
-    public static string Unwrap(this (PathService PathService, string Path) option)
+    public static string Unwrap(this (PathService PathService, string Path) maybe)
     {
         return option.Path;
     }
