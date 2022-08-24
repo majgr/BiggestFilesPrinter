@@ -3,7 +3,7 @@ namespace BiggestFilesPrinter;
 
 public record FileData
 {
-    public string Path { get; init; }
+    public string Path { get; init; } = "";
     public long Size { get; init; }
     public string SizeFormatted
     {
