@@ -11,7 +11,7 @@ public class PathService
 
 public static class PathServiceExtensions
 {
-    public static (PathService PathService, string Path) IfEmptyGetFromSettings(this (PathService PathService, string Path) option, Settings settings)
+    public static (PathService PathService, string Path) GetFromSettings(this (PathService PathService, string Path) option, Settings settings)
     {
         if (!Path.IsPathFullyQualified(option.Path))
         {
@@ -22,7 +22,7 @@ public static class PathServiceExtensions
         return option;
     }
 
-    public static (PathService PathService, string Path) IfEmptyGetFromConsole(this (PathService PathService, string Path) option)
+    public static (PathService PathService, string Path) GetFromConsole(this (PathService PathService, string Path) option)
     {
         if (!Path.IsPathFullyQualified(option.Path))
         {

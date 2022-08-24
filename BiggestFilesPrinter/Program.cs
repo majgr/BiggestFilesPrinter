@@ -8,8 +8,8 @@ var getFormattedRow = (string size, string path) => $"{size.PadRight(padSize)}| 
 var settings = SettingsService.Get();
 var path = PathService
     .GetFromArgs(args)
-    .IfEmptyGetFromSettings(settings)
-    .IfEmptyGetFromConsole()
+    .GetFromSettings(settings)
+    .GetFromConsole()
     .Unwrap();
 
 var filesData = FileService.Get(path);

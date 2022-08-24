@@ -9,31 +9,16 @@ public record FileData
     {
         get
         {
-            if (Size < 100)
+            var sizeFormats = new string[] { "", "K", "M", "G", "T" };
+            var sizeIndex = 0;
+            var size = (decimal)Size;
+            while (size >= 1000m && sizeIndex < sizeFormats.Length)
             {
-                return Size.ToString();
+                size = size / 1024m;
+                sizeIndex++;
             }
 
-            var currentSize = Size / 1024m;
-            if (currentSize < 1000m)
-            {
-                return String.Format("{0:0.00} KB", currentSize);
-            }
-
-            currentSize = currentSize / 1024m;
-            if (currentSize < 1000m)
-            {
-                return String.Format("{0:0.00} MB", currentSize);
-            }
-
-            currentSize = currentSize / 1024m;
-            if (currentSize < 1000m)
-            {
-                return String.Format("{0:0.00} GB", currentSize);
-            }
-
-            currentSize = currentSize / 1024m;
-            return String.Format("{0:0.00} TB", currentSize);
+            return String.Format($"{{0:0.00}} {sizeFormats[sizeIndex]}B", size);
         }
     }
 }
